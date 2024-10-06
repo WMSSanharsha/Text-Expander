@@ -1,3 +1,4 @@
+import { useState } from "react";
 import "./index.css";
 
 export default function App() {
@@ -34,6 +35,32 @@ export default function App() {
   );
 }
 
-function TextExpander() {
-  return <div>TODO</div>;
+function TextExpander({
+  children,
+  collapsedNumWords = 10,
+  expandButtonText = "Show More",
+  collapseButtonText = "Show Less",
+  buttonColor = "blue",
+  className = "",
+}) {
+  const [hideText, setHideText] = useState(false);
+
+  function handleButtonToggle() {
+    setHideText(() => !hideText);
+  }
+
+  return (
+    <div>
+      <p>
+        {hideText ? children.slice(0, collapsedNumWords) + "..." : children}
+      </p>
+      <button
+        onClick={handleButtonToggle}
+        style={{ color: buttonColor }}
+        className={className ? className : ""}
+      >
+        {hideText ? expandButtonText : collapseButtonText}
+      </button>
+    </div>
+  );
 }
